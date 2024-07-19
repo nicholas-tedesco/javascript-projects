@@ -47,7 +47,7 @@ function Enter() {
 
         <div className="flex justify-center ml-10 mr-10">
 
-            <div className="flex justify-between bg-white w-3/4 pl-10 pr-10 pt-5 pb-5">
+            <div className="flex justify-between bg-white w-3/4 pl-10 pr-10 pt-5 pb-5 shadow-2xl">
 
                 {/* to-do item details */}
                 <form className="flex justify-start items-center w-3/4">

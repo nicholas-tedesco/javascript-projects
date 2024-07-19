@@ -39,6 +39,23 @@ def delete_from_db(key: int):
     conn.close() 
 
 
+def get_from_db(): 
+
+    conn = sqlite3.connect('db/todo.db')
+    curs = conn.cursor() 
+
+    get_query = """
+        SELECT * FROM items; 
+    """
+
+    curs.execute(get_query)
+    res = curs.fetchall() 
+
+    conn.close() 
+
+    return res 
+
+
 # API routing
 
 @app.route('/api/store', methods=['POST'])
@@ -53,6 +70,20 @@ def store():
     insert_into_db(item, priority)
 
     return jsonify({'message': 'item successfully entered into database!'})
+
+
+@app.route('/api/items', methods=['GET'])
+def items(): 
+
+    print('Request received at /api/items')
+
+    items = get_from_db() 
+    
+    json_items = {}
+    for item in items: 
+        json_items[item[1]] = item[2]
+
+    return jsonify(json_items)
 
 
 if __name__ == '__main__': 
