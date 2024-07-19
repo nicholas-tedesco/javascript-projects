@@ -3,29 +3,35 @@ import React, { useEffect } from 'react';
 function Enter() {
 
     useEffect(() => {
+
         const item = document.getElementById("item"); 
         const priority = document.getElementById("priority");
+
         const handleKeyDown = (e) => {
+
             if (e.key === "Enter") {
+
                 console.log(item.value); 
                 console.log(priority.value);
+
+                // Send data to Flask backend using fetch
+                fetch('http://127.0.0.1:5000/api/store', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ item: item.value, priority: priority.value }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message); 
+                })
+                .catch(error => {
+                    console.error('There was an error writing the priority!', error);
+                });
+
             }
 
-            // Send data to Flask backend using fetch
-            fetch('/input', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ item: item.value, priority: priority.value }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.message); 
-            })
-            .catch(error => {
-                console.error('There was an error writing the priority!', error);
-            });
         };
 
         priority.addEventListener("keydown", handleKeyDown);

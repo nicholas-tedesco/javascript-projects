@@ -1,7 +1,12 @@
 from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS
 import sqlite3 
 
-app = Flask(__name__, static_folder='../src', static_url_path='')
+app = Flask(__name__)
+CORS(app)
+
+
+# functions to interact with database 
 
 def insert_into_db(item: str, priority: int): 
 
@@ -34,21 +39,18 @@ def delete_from_db(key: int):
     conn.close() 
 
 
-@app.route('/')
-def serve():
-    return send_from_directory(app.static_folder, 'index.html')
+# API routing
 
+@app.route('/api/store', methods=['POST'])
+def store(): 
 
-@app.route('/input', methods=['POST'])
-def store_input(): 
+    print('Request received at /api/store')
 
-    data = request.json() 
-    item = data.get('item')
-    priority = data.get('priority') 
+    data = request.get_json()
+    item = data['item']
+    priority = data['priority']
 
     insert_into_db(item, priority)
-
-    print('that worked')
 
     return jsonify({'message': 'item successfully entered into database!'})
 
