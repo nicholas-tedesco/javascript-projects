@@ -44,13 +44,13 @@ function Display() {
 
                     <div className="flex justify-center">
 
-                        <div className="flex justify-between bg-white w-3/4 pl-10 pr-10 pt-5 pb-5 shadow-2xl">
-
-                            {/* to-do item details */}
-                            <p>{item}</p>
+                        <div className="flex justify-between items-center bg-white w-3/4 pl-10 pr-10 pt-5 pb-5 shadow-2xl">
+                        
+                                {/* to-do item details */}
+                                <p>{item}</p>
 
                             {/* option to remove */}
-                            <button onClick={() => deleteRecord(items[item])}>Delete</button>
+                            <button onClick={() => deleteRecord(items[item])} className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900">Complete</button>
 
                         </div>
 

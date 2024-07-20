@@ -6,7 +6,7 @@ function Footer() {
 
                 {/* footer text */}
                 <div className="flex-col justify-center">
-                    <p>Wow, this app sucks.</p>
+                    <p>From humble beginnings come great things.</p>
                 </div>
 
             </div>
