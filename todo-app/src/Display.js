@@ -10,8 +10,9 @@ function Display() {
 
         Axios.get('http://127.0.0.1:5000/api/items')
             .then(res => {
-                setItems(res.data); 
-                console.log(res.data); 
+                var data = res.data; 
+                setItems(data); 
+                console.log(data); 
             }); 
 
     }

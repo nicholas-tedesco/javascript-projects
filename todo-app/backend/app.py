@@ -1,9 +1,11 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, Response
 from flask_cors import CORS
+import json
 import sqlite3 
 
 app = Flask(__name__)
 CORS(app)
+app.config['JSON_SORT_KEYS'] = False
 
 
 # functions to interact with database 
@@ -45,7 +47,7 @@ def get_from_db():
     curs = conn.cursor() 
 
     get_query = """
-        SELECT * FROM items; 
+        SELECT * FROM items ORDER BY priority; 
     """
 
     curs.execute(get_query)
@@ -67,6 +69,9 @@ def store():
     item = data['item']
     priority = data['priority']
 
+    # if (not valid_insert): 
+    #     rearrange_db()
+
     insert_into_db(item, priority)
 
     return jsonify({'message': 'item successfully entered into database!'})
@@ -81,17 +86,16 @@ def items():
     
     json_items = {}
     for item in items: 
-        print(item)
         json_items[item[1]] = item[2]
 
-    return jsonify(json_items)
+    json_data = json.dumps(json_items, sort_keys=False)
+    return Response(json_data, mimetype='application/json')
 
 
 @app.route('/api/delete/<priority>', methods=['DELETE'])
 def delete(priority): 
 
     print('Request received at /api/delete')
-    print(priority) 
     
     delete_from_db(priority)
 
