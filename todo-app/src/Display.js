@@ -1,8 +1,44 @@
-import React, { useEffect } from 'react'; 
+import React, { useEffect, useState } from 'react'; 
+import Axios from 'axios'; 
 
 function Display() {
 
-    // get to-do items from database
+    const [items, setItems] = useState(""); 
+
+    const fetchData = () => {
+
+        Axios.get('http://127.0.0.1:5000/api/items')
+            .then(res => {
+                setItems(res.data); 
+                console.log(res.data); 
+            }); 
+
+    }
+
+    useEffect(() => {
+        fetchData(); 
+    }, []);
+
+    const RenderItems = () => {
+
+        return(
+
+            <ul>
+
+                {Object.keys(items).map((item) => (
+                    <li>
+                        <div class="flex justify-between w-3/4 pl-10 pr-10 pt-5 pb-5">
+                            <p>{item}</p>
+                            <button>Test</button>  
+                        </div>
+                    </li>
+                ))}
+
+            </ul>
+
+        );
+
+    }
 
     return(
 
@@ -10,7 +46,7 @@ function Display() {
 
             <div className="flex justify-between bg-white w-3/4 pl-10 pr-10 pt-5 pb-5 shadow-2xl">
 
-                <p>This is a test.</p>
+                <RenderItems />
 
             </div>
 
