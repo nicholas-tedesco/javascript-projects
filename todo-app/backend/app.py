@@ -24,13 +24,13 @@ def insert_into_db(item: str, priority: int):
     conn.close() 
 
 
-def delete_from_db(key: int): 
+def delete_from_db(priority: int): 
 
     conn = sqlite3.connect('db/todo.db')
     curs = conn.cursor() 
 
     delete_query = f"""
-        DELETE FROM items WHERE id = {key}; 
+        DELETE FROM items WHERE priority = {priority}; 
     """
 
     curs.execute(delete_query)
@@ -81,9 +81,21 @@ def items():
     
     json_items = {}
     for item in items: 
+        print(item)
         json_items[item[1]] = item[2]
 
     return jsonify(json_items)
+
+
+@app.route('/api/delete/<priority>', methods=['DELETE'])
+def delete(priority): 
+
+    print('Request received at /api/delete')
+    print(priority) 
+    
+    delete_from_db(priority)
+
+    return jsonify({'message': 'item successfully deleted'})
 
 
 if __name__ == '__main__': 
